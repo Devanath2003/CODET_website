@@ -33,12 +33,12 @@ def initialize_model():
         model = fasterrcnn_resnet50_fpn_v2(weights=None)
         in_features = model.roi_heads.box_predictor.cls_score.in_features
         model.roi_heads.box_predictor = FastRCNNPredictor(in_features, 3)
-        
-        model_path = os.path.join(MODEL_FOLDER, 'coconut_detector_final.pth')
+
+        model_path = os.path.join(MODEL_FOLDER, r'C:\Users\devan\Desktop\website\real_website\betterone - Copy\backend\model\coconut_detector_final.pth')
         if not os.path.exists(model_path):
             raise FileNotFoundError(f"Model file not found at {model_path}")
-            
-        model.load_state_dict(torch.load(model_path, map_location=device))
+        
+        model.load_state_dict(torch.load(model_path, map_location=device, weights_only=True))
         model.eval()
         print("Model initialized successfully")
     except Exception as e:
@@ -58,11 +58,11 @@ def detect_coconut():
     # Check if image was uploaded
     if 'image' not in request.files:
         return jsonify({'error': 'No image file provided'}), 400
-    
+
     file = request.files['image']
     if file.filename == '':
         return jsonify({'error': 'No selected file'}), 400
-    
+
     if not allowed_file(file.filename):
         return jsonify({'error': 'Invalid file type'}), 400
 
@@ -111,5 +111,4 @@ def before_first_request():
     initialize_model()
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    app.run(host='0.0.0.0', port=5000)
