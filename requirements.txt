@@ -4,3 +4,4 @@ flask-cors==3.0.10
 torch
 torchvision
 pillow==9.5.0
+gunicorn==21.2.0
